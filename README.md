@@ -1,3 +1,61 @@
+# Money and Calories Calculator
+### Task description
+Create two calculators: for counting money and calories. You don't need to write the user interface, write only the logic - a separate class for each of the calculators.
+
+#### Money calculator should be able to:
+
+1. Save a new expense record using the `add_record()` method
+2. Calculate how much money has been spent today using the `get_today_stats()` method
+3. Determine how much money is left to spend today in rubles, dollars, or euros using the `get_today_cash_remained(currency)` method
+4. Calculate how much money has been spent in the last 7 days using the `get_week_stats()` method
+
+#### Calorie calculator should be able to:
+
+1. Save a new food intake record using the `add_record()` method
+2. Calculate how many calories have been consumed today using the `get_today_stats()` method
+3. Determine how many more calories can/should be consumed today using the `get_calories_remained()` method
+4. Calculate how many calories have been consumed in the last 7 days using the `get_week_stats()` method
+
+There are many overlapping functions in the calculators: they must be able to store some records (about food or money, but essentially - all numbers and dates), know the daily limit (how much money or how many calories can be spent/received per day), and sum up the records for specific dates. Include all this common functionality in the parent class **Calculator**, and inherit the **CaloriesCalculator** and **CashCalculator** classes from it.
+
+The **Calculator** class constructor should take one argument - the number `limit` (the user-specified daily spending/calorie limit). In the constructor, create an empty list that will later store the records (call it `records`).
+
+To make it more convenient to create records, create a separate class for them, **Record**. In it, save:
+
+- the number `amount` (the amount of money or the number of kilocalories),
+- the date of creation of the record `date` (passed explicitly in the constructor or assigned a default value - the current date),
+- a `comment` explaining where the money was spent or where the calories came from.
+
+#### Examples of such records:
+
+```python
+# for CashCalculator  
+r1 = Record(amount=145, comment="Unrestrained shopping", date="08.03.2019")  
+r2 = Record(amount=1568, comment="Filling the consumer basket", date="09.03.2019") 
+r3 = Record(amount=691, comment="Taxi ride", date="08.03.2019")  
+
+# for CaloriesCalculator  
+r4 = Record(amount=1186, comment="Piece of cake. And another one.", date="24.02.2019")  
+r5 = Record(amount=84, comment="Yogurt.", date="23.02.2019")  
+r6 = Record(amount=1140, comment="Can of chips.", date="24.02.2019")  
+```
+
+## About the output format
+
+1. The `get_calories_remained()` method of the **calorie calculator** should return the following response:
+   - "*You can eat something else today, but your total calorie intake should not exceed N kcal*", if the `limit` has not been reached.
+   - "*Enough is enough!*" if the limit has been reached or exceeded.
+2. The `get_today_cash_remained(currency)` method of the **money calculator** should accept the currency code as input, one of the strings `"rub"`, `"usd"`, or `"eur"`.
+    
+It returns a message about the daily balance in this currency, rounding the amount to two decimal places (to the hundredths):
+
+   - "*You have N rub/USD/Euro left for today*" - in case the `limit` has not been reached,
+   - or "*You are broke, hold on tight*" if the limit has been reached,
+   - or "*You are broke, and your debt is N rub/USD/Euro*" if the limit has been exceeded.
+
+Please specify the currency rates as constants **USD_RATE** and **EURO_RATE** directly in the **CashCalculator** class.
+
+
 # Калькулятор денег и калорий
 ### Условие задачи
 Создайте два калькулятора: для подсчёта денег и калорий. Пользовательскую часть калькуляторов, их «лицо», писать не нужно, напишите только логику — отдельный класс для каждого из калькуляторов.
